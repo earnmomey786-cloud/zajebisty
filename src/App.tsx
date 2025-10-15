@@ -8,7 +8,6 @@ function App() {
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkOrientation = () => {
@@ -25,30 +24,46 @@ function App() {
     };
   }, []);
 
-  // Función para activar el sonido y fullscreen cuando el usuario toca
-  const handleVideoClick = async () => {
-    if (videoRef.current) {
+  // Intentar reproducir con sonido cuando el componente se monta
+  useEffect(() => {
+    const playVideoWithSound = async () => {
+      if (videoRef.current) {
+        try {
+          videoRef.current.muted = false;
+          await videoRef.current.play();
+        } catch (error) {
+          // Si falla, intentar con muted primero y luego activar sonido
+          console.log('Intento con muted primero');
+          videoRef.current.muted = true;
+          await videoRef.current.play();
+        }
+      }
+    };
+
+    playVideoWithSound();
+  }, []);
+
+  // Activar sonido al hacer click/touch
+  const handleVideoInteraction = async () => {
+    if (videoRef.current && videoRef.current.muted) {
+      videoRef.current.muted = false;
       try {
         await videoRef.current.play();
-        videoRef.current.muted = false;
       } catch (error) {
-        console.log('Error al reproducir video:', error);
-      }
-    }
-    
-    // Intentar activar fullscreen
-    if (containerRef.current) {
-      try {
-        if (containerRef.current.requestFullscreen) {
-          await containerRef.current.requestFullscreen();
-        } else if ((containerRef.current as any).webkitRequestFullscreen) {
-          await (containerRef.current as any).webkitRequestFullscreen();
-        }
-      } catch (error) {
-        console.log('Error al activar fullscreen:', error);
+        console.log('Error al activar sonido:', error);
       }
     }
   };
+
+  // Scroll hacia abajo para ocultar la barra de direcciones
+  useEffect(() => {
+    if (!isLandscape) {
+      // Hacer scroll hacia abajo para ocultar la barra
+      setTimeout(() => {
+        window.scrollTo(0, 1);
+      }, 100);
+    }
+  }, [isLandscape]);
 
   const sections = [
     {
@@ -162,19 +177,30 @@ function App() {
       {/* Pantalla de rotación para móvil en vertical */}
       {!isLandscape && (
         <div 
-          ref={containerRef}
-          className="fixed inset-0 bg-black z-50 flex items-center justify-center cursor-pointer" 
-          style={{ height: '100dvh' }}
-          onClick={handleVideoClick}
+          className="fixed inset-0 bg-black z-50" 
+          style={{ 
+            height: '100vh',
+            width: '100vw',
+            top: 0,
+            left: 0
+          }}
+          onClick={handleVideoInteraction}
+          onTouchStart={handleVideoInteraction}
         >
           <video
             ref={videoRef}
             src="/mueveelmovil.mp4"
             autoPlay
             loop
-            muted
             playsInline
             className="w-full h-full object-cover"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}
           />
         </div>
       )}
