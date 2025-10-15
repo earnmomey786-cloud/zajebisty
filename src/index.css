@@ -6,47 +6,24 @@
   * {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
   }
   
   body {
-    overscroll-behavior: none;
-    overflow: hidden;
-    touch-action: pan-x;
-    height: 100dvh;
-    width: 100vw;
-    position: fixed;
+    touch-action: pan-x pan-y;
     margin: 0;
     padding: 0;
+    width: 100vw;
+    min-height: 100vh;
   }
   
   html {
-    overflow: hidden;
-    height: 100dvh;
     width: 100vw;
     margin: 0;
     padding: 0;
-    /* Ocultar scrollbar */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  html::-webkit-scrollbar {
-    display: none;
   }
   
   #root {
-    height: 100dvh;
     width: 100vw;
-  }
-  
-  /* Meta tag para iOS - ocultar barra de navegación al hacer scroll */
-  @supports (-webkit-touch-callout: none) {
-    body {
-      /* Para iOS Safari */
-      position: fixed;
-      overflow: hidden;
-    }
+    min-height: 100vh;
   }
 }

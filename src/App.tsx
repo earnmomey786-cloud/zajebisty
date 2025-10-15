@@ -207,10 +207,11 @@ function App() {
 
       {/* Contenido principal - solo visible en horizontal */}
       <div 
-        className="w-screen overflow-hidden relative bg-black select-none touch-none"
+        className="w-screen overflow-hidden relative bg-black touch-none"
         style={{ 
           cursor: isDragging ? 'grabbing' : 'grab',
-          height: '100dvh'
+          minHeight: '120vh',
+          height: 'auto'
         }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
@@ -221,7 +222,7 @@ function App() {
         className={`flex ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
         style={{ 
           transform: `translateX(${currentTranslate}px)`,
-          height: '100dvh'
+          minHeight: '120vh'
         }}
       >
         {sections.map((section) => {
@@ -234,7 +235,7 @@ function App() {
                 backgroundImage: `url(${section.backgroundImage})`,
                 backgroundSize: 'cover',
                 width: '100vw',
-                height: '100dvh'
+                minHeight: '120vh'
               }}
             >
               <div className="text-center text-white px-8 space-y-8 relative z-10 pointer-events-none">
