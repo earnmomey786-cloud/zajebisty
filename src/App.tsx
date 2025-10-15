@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 function App() {
   const [isDragging, setIsDragging] = useState(false);
   const [startPos, setStartPos] = useState(0);
+  const [startPosY, setStartPosY] = useState(0);
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
@@ -94,18 +95,32 @@ function App() {
   const getPositionX = (event: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
     return 'touches' in event ? event.touches[0].clientX : event.clientX;
   };
+  const getPositionY = (event: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
+    return 'touches' in event ? event.touches[0].clientY : event.clientY;
+  };
 
   const handleStart = (event: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
     setStartPos(getPositionX(event));
+    setStartPosY(getPositionY(event));
     setPrevTranslate(currentTranslate);
   };
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
+      const currentX = getPositionX(event);
+      const currentY = getPositionY(event);
+      const diffX = currentX - startPos;
+      const diffY = currentY - startPosY;
+
+      // Si el gesto es más vertical que horizontal, no bloquear: permitir scroll
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        return;
+      }
+
+      // Gesto principalmente horizontal: prevenir scroll y arrastrar
       event.preventDefault();
-      const currentPosition = getPositionX(event);
-      const diff = currentPosition - startPos;
+      const diff = diffX;
       const newTranslate = prevTranslate + diff;
       
       // Limitar el arrastre para no ir más allá de las secciones
@@ -202,7 +217,7 @@ function App() {
 
       {/* Contenido principal - solo visible en horizontal */}
       <div 
-        className="w-screen overflow-hidden relative bg-black touch-none"
+        className="w-screen overflow-hidden relative bg-black touch-pan-y"
         style={{ 
           cursor: isDragging ? 'grabbing' : 'grab',
           minHeight: '120vh',
@@ -234,7 +249,7 @@ function App() {
             >
               {/* Título en imagen, solo en la primera sección (arriba a la derecha) */}
               {section.id === 0 && (
-                <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[80vw] max-w-[900px] md:w-[50vw] pointer-events-none select-none z-20">
+                <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[50vw] max-w-[900px] pointer-events-none select-none z-20">
                   <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
                   <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
                   <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
