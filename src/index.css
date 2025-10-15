@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  body {
+    overscroll-behavior: none;
+    overflow: hidden;
+    touch-action: pan-x;
+  }
+  
+  html {
+    overflow: hidden;
+    height: 100%;
+  }
+}

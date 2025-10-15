@@ -66,6 +66,7 @@ function App() {
 
   const handleMove = (event: React.MouseEvent | React.TouchEvent) => {
     if (isDragging) {
+      event.preventDefault();
       const currentPosition = getPositionX(event);
       const diff = currentPosition - startPos;
       const newTranslate = prevTranslate + diff;
@@ -147,10 +148,12 @@ function App() {
 
       {/* Contenido principal - solo visible en horizontal */}
       <div 
-        className="h-screen w-screen overflow-hidden relative bg-black select-none"
+        className="h-screen w-screen overflow-hidden relative bg-black select-none touch-none"
         style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
       >
       <div
         className={`flex h-full ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
