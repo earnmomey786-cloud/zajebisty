@@ -134,7 +134,7 @@ function App() {
     <>
       {/* Pantalla de rotación para móvil en vertical */}
       {!isLandscape && (
-        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center" style={{ height: '100dvh' }}>
           <video
             src="/mueveelmovil.mp4"
             autoPlay
@@ -148,26 +148,34 @@ function App() {
 
       {/* Contenido principal - solo visible en horizontal */}
       <div 
-        className="h-screen w-screen overflow-hidden relative bg-black select-none touch-none"
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        className="w-screen overflow-hidden relative bg-black select-none touch-none"
+        style={{ 
+          cursor: isDragging ? 'grabbing' : 'grab',
+          height: '100dvh'
+        }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
       >
       <div
-        className={`flex h-full ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
-        style={{ transform: `translateX(${currentTranslate}px)` }}
+        className={`flex ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
+        style={{ 
+          transform: `translateX(${currentTranslate}px)`,
+          height: '100dvh'
+        }}
       >
         {sections.map((section) => {
           const Icon = section.icon;
           return (
             <div
               key={section.id}
-              className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center relative bg-center bg-no-repeat"
+              className="flex-shrink-0 flex flex-col items-center justify-center relative bg-center bg-no-repeat"
               style={{ 
                 backgroundImage: `url(${section.backgroundImage})`,
-                backgroundSize: 'cover'
+                backgroundSize: 'cover',
+                width: '100vw',
+                height: '100dvh'
               }}
             >
               <div className="text-center text-white px-8 space-y-8 relative z-10 pointer-events-none">
