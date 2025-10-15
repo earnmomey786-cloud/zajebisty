@@ -17,16 +17,36 @@
     height: 100dvh;
     width: 100vw;
     position: fixed;
+    margin: 0;
+    padding: 0;
   }
   
   html {
     overflow: hidden;
     height: 100dvh;
     width: 100vw;
+    margin: 0;
+    padding: 0;
+    /* Ocultar scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  html::-webkit-scrollbar {
+    display: none;
   }
   
   #root {
     height: 100dvh;
     width: 100vw;
+  }
+  
+  /* Meta tag para iOS - ocultar barra de navegación al hacer scroll */
+  @supports (-webkit-touch-callout: none) {
+    body {
+      /* Para iOS Safari */
+      position: fixed;
+      overflow: hidden;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Rocket, Zap, Target, Users } from 'lucide-react';
 
 function App() {
@@ -7,6 +7,8 @@ function App() {
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkOrientation = () => {
@@ -22,6 +24,31 @@ function App() {
       window.removeEventListener('orientationchange', checkOrientation);
     };
   }, []);
+
+  // Función para activar el sonido y fullscreen cuando el usuario toca
+  const handleVideoClick = async () => {
+    if (videoRef.current) {
+      try {
+        await videoRef.current.play();
+        videoRef.current.muted = false;
+      } catch (error) {
+        console.log('Error al reproducir video:', error);
+      }
+    }
+    
+    // Intentar activar fullscreen
+    if (containerRef.current) {
+      try {
+        if (containerRef.current.requestFullscreen) {
+          await containerRef.current.requestFullscreen();
+        } else if ((containerRef.current as any).webkitRequestFullscreen) {
+          await (containerRef.current as any).webkitRequestFullscreen();
+        }
+      } catch (error) {
+        console.log('Error al activar fullscreen:', error);
+      }
+    }
+  };
 
   const sections = [
     {
@@ -134,11 +161,18 @@ function App() {
     <>
       {/* Pantalla de rotación para móvil en vertical */}
       {!isLandscape && (
-        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center" style={{ height: '100dvh' }}>
+        <div 
+          ref={containerRef}
+          className="fixed inset-0 bg-black z-50 flex items-center justify-center cursor-pointer" 
+          style={{ height: '100dvh' }}
+          onClick={handleVideoClick}
+        >
           <video
+            ref={videoRef}
             src="/mueveelmovil.mp4"
             autoPlay
             loop
+            muted
             playsInline
             className="w-full h-full object-cover"
           />
