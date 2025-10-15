@@ -25,5 +25,76 @@
   #root {
     width: 100vw;
     min-height: 100vh;
+    overflow-y: auto;
+    height: 100vh;
+  }
+}
+
+/* Asegurar que el contenedor principal permite el scroll */
+  #root {
+    overflow-y: auto;
+    height: 100vh;
+  }
+
+/* Efecto glitch (andrew-demchenk0) adaptado para imágenes */
+@layer components {
+  .glitch {
+    position: relative;
+    z-index: 1;
+    animation: shift 2s ease-in-out infinite alternate;
+  }
+
+  .glitch img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Capas superpuestas que simulan before/after del snippet original */
+  .glitch img:nth-child(2),
+  .glitch img:nth-child(3) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  /* Capa magenta (equivalente a :before) */
+  .glitch img:nth-child(2) {
+    filter: hue-rotate(280deg) saturate(2.5) brightness(1.1);
+    animation: glitch 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    z-index: -1;
+    mix-blend-mode: screen;
+  }
+
+  /* Capa verde (equivalente a :after) */
+  .glitch img:nth-child(3) {
+    filter: hue-rotate(120deg) saturate(2.5) brightness(1.1);
+    animation: glitch 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+    z-index: -2;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+  }
+
+  @keyframes shift {
+    0%, 40%, 44%, 58%, 61%, 65%, 69%, 73%, 100% { transform: skewX(0deg); }
+    41% { transform: skewX(10deg); }
+    42% { transform: skewX(-10deg); }
+    59% { transform: skewX(40deg) skewY(10deg); }
+    60% { transform: skewX(-40deg) skewY(-10deg); }
+    63% { transform: skewX(10deg) skewY(-5deg); }
+    70% { transform: skewX(-50deg) skewY(-20deg); }
+    71% { transform: skewX(10deg) skewY(-10deg); }
   }
 }

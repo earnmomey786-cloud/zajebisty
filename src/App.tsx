@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Rocket, Zap, Target, Users } from 'lucide-react';
 
 function App() {
   const [isDragging, setIsDragging] = useState(false);
@@ -70,28 +69,24 @@ function App() {
       id: 0,
       title: "Transforma Tu Negocio",
       subtitle: "Soluciones innovadoras para el futuro",
-      icon: Rocket,
       backgroundImage: "/1.png"
     },
     {
       id: 1,
       title: "Velocidad Extrema",
       subtitle: "Resultados en tiempo récord",
-      icon: Zap,
       backgroundImage: "/2.png"
     },
     {
       id: 2,
       title: "Precisión Total",
       subtitle: "Alcanza tus objetivos con exactitud",
-      icon: Target,
       backgroundImage: "/3.png"
     },
     {
       id: 3,
       title: "Únete a Nosotros",
       subtitle: "Miles de clientes satisfechos",
-      icon: Users,
       backgroundImage: "/4.png"
     }
   ];
@@ -226,7 +221,6 @@ function App() {
         }}
       >
         {sections.map((section) => {
-          const Icon = section.icon;
           return (
             <div
               key={section.id}
@@ -238,18 +232,16 @@ function App() {
                 minHeight: '120vh'
               }}
             >
-              <div className="text-center text-white px-8 space-y-8 relative z-10 pointer-events-none">
-                <div className="flex justify-center mb-8">
-                  <div className="p-6 bg-white/10 backdrop-blur-sm rounded-full">
-                    <Icon size={80} className="text-white" strokeWidth={1.5} />
-                  </div>
+              {/* Título en imagen, solo en la primera sección (arriba a la derecha) */}
+              {section.id === 0 && (
+                <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[80vw] max-w-[900px] md:w-[50vw] pointer-events-none select-none z-20">
+                  <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
+                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
+                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
                 </div>
-                <h1 className="text-6xl md:text-8xl font-bold tracking-tight">
-                  {section.title}
-                </h1>
-                <p className="text-2xl md:text-3xl font-light opacity-90">
-                  {section.subtitle}
-                </p>
+              )}
+              <div className="text-center text-white px-8 space-y-8 relative z-10 pointer-events-none">
+                {/* Texto grande eliminado a petición: título y subtítulo */}
                 <button className="mt-8 px-12 py-4 bg-white text-gray-900 rounded-full text-lg font-semibold hover:scale-105 transition-transform duration-200 shadow-2xl pointer-events-auto">
                   Comenzar Ahora
                 </button>
