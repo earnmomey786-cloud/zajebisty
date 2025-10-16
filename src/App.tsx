@@ -68,27 +68,19 @@ function App() {
   const sections = [
     {
       id: 0,
-      title: "Transforma Tu Negocio",
-      subtitle: "Soluciones innovadoras para el futuro",
-      backgroundImage: "/1.png"
+      backgroundImage: "/fondo1.png"
     },
     {
       id: 1,
-      title: "Velocidad Extrema",
-      subtitle: "Resultados en tiempo récord",
-      backgroundImage: "/2.png"
+      backgroundImage: "/fondo2.png"
     },
     {
       id: 2,
-      title: "Precisión Total",
-      subtitle: "Alcanza tus objetivos con exactitud",
-      backgroundImage: "/3.png"
+      backgroundImage: "/fondo3.png"
     },
     {
       id: 3,
-      title: "Únete a Nosotros",
-      subtitle: "Miles de clientes satisfechos",
-      backgroundImage: "/4.png"
+      backgroundImage: "/fondo4.png"
     }
   ];
 
@@ -220,50 +212,44 @@ function App() {
         className="w-screen overflow-hidden relative bg-black touch-pan-y"
         style={{ 
           cursor: isDragging ? 'grabbing' : 'grab',
-          minHeight: '120vh',
-          height: 'auto'
+          height: '100vh',
+          overflow: 'hidden'
         }}
         onMouseDown={handleStart}
         onTouchStart={handleStart}
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
       >
+
+
       <div
-        className={`flex ${isDragging ? '' : 'transition-transform duration-500 ease-out'}`}
+        className={`flex ${isDragging ? '' : 'transition-transform duration-300 ease-out'}`}
         style={{ 
           transform: `translateX(${currentTranslate}px)`,
-          minHeight: '120vh'
+          height: '100vh'
         }}
       >
-        {sections.map((section) => {
-          return (
-            <div
-              key={section.id}
-              className="flex-shrink-0 flex flex-col items-center justify-center relative bg-center bg-no-repeat"
-              style={{ 
-                backgroundImage: `url(${section.backgroundImage})`,
-                backgroundSize: 'cover',
-                width: '100vw',
-                minHeight: '120vh'
-              }}
-            >
-              {/* Título en imagen, solo en la primera sección (arriba a la derecha) */}
-              {section.id === 0 && (
-                <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[50vw] max-w-[900px] pointer-events-none select-none z-20">
-                  <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
-                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
-                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
-                </div>
-              )}
-              <div className="text-center text-white px-8 space-y-8 relative z-10 pointer-events-none">
-                {/* Texto grande eliminado a petición: título y subtítulo */}
-                <button className="mt-8 px-12 py-4 bg-white text-gray-900 rounded-full text-lg font-semibold hover:scale-105 transition-transform duration-200 shadow-2xl pointer-events-auto">
-                  Comenzar Ahora
-                </button>
+        {sections.map((section) => (
+          <div
+            key={section.id}
+            className="section-bg flex-shrink-0 w-screen h-screen relative"
+            style={{
+              backgroundImage: `url(${section.backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
+          >
+            {/* Título con efecto glitch, solo en la primera sección */}
+            {section.id === 0 && (
+              <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[50vw] max-w-[900px] pointer-events-none select-none z-50">
+                <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
+                <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
+                <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
               </div>
-            </div>
-          );
-        })}
+            )}
+          </div>
+        ))}
       </div>
     </div>
     </>
