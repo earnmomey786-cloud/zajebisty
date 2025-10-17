@@ -7,20 +7,22 @@ function App() {
   const [currentTranslate, setCurrentTranslate] = useState(0);
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const checkOrientation = () => {
+    const checkDevice = () => {
       setIsLandscape(window.innerWidth > window.innerHeight);
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
     };
     
-    checkOrientation();
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('orientationchange', checkOrientation);
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    window.addEventListener('orientationchange', checkDevice);
     
     return () => {
-      window.removeEventListener('resize', checkOrientation);
-      window.removeEventListener('orientationchange', checkOrientation);
+      window.removeEventListener('resize', checkDevice);
+      window.removeEventListener('orientationchange', checkDevice);
     };
   }, []);
 
@@ -29,10 +31,16 @@ function App() {
     const playVideoWithSound = async () => {
       if (videoRef.current) {
         try {
-          videoRef.current.muted = true; // Forzar muted inicialmente para compatibilidad móvil
+          videoRef.current.muted = false;
           await videoRef.current.play();
         } catch (error) {
-          console.log('Error al reproducir video:', error);
+          console.log('Error al reproducir video con sonido, intentando muted:', error);
+          try {
+            videoRef.current.muted = true;
+            await videoRef.current.play();
+          } catch (error2) {
+            console.log('Error al reproducir video muted:', error2);
+          }
         }
       }
     };
@@ -173,8 +181,8 @@ function App() {
 
   return (
     <>
-      {/* Pantalla de rotación para móvil en vertical */}
-      {!isLandscape && (
+      {/* Video para móvil siempre visible */}
+      {isMobile && (
         <div 
           className="fixed inset-0 bg-black z-50" 
           style={{ 
