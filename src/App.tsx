@@ -172,8 +172,8 @@ function App() {
 
   return (
     <>
-      {/* Video para móvil siempre visible */}
-      {isMobile && (
+      {/* Video para móvil en vertical */}
+      {!isLandscape && isMobile && (
         <div 
           className="fixed inset-0 bg-black z-50" 
           style={{ 
