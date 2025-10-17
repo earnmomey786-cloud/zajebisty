@@ -204,6 +204,14 @@ function App() {
               height: '100%'
             }}
           />
+          {/* Imagen superpuesta en la parte inferior */}
+          <img
+            src="/obrocekran.png"
+            alt="Obróć ekran"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] max-w-xs mb-4 pointer-events-none"
+            draggable={false}
+            style={{ zIndex: 60 }}
+          />
         </div>
       )}
 
