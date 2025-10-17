@@ -29,13 +29,10 @@ function App() {
     const playVideoWithSound = async () => {
       if (videoRef.current) {
         try {
-          videoRef.current.muted = false;
+          videoRef.current.muted = true; // Forzar muted inicialmente para compatibilidad móvil
           await videoRef.current.play();
         } catch (error) {
-          // Si falla, intentar con muted primero y luego activar sonido
-          console.log('Intento con muted primero');
-          videoRef.current.muted = true;
-          await videoRef.current.play();
+          console.log('Error al reproducir video:', error);
         }
       }
     };
