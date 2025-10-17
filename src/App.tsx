@@ -26,31 +26,22 @@ function App() {
     };
   }, []);
 
-  // Intentar reproducir con sonido cuando el componente se monta
+  // Reproducir video con sonido cuando esté listo
   useEffect(() => {
-    const playVideoWithSound = async () => {
-      if (videoRef.current) {
-        try {
-          videoRef.current.muted = false;
-          await videoRef.current.play();
-        } catch (error) {
-          console.log('Error al reproducir video con sonido, intentando muted:', error);
-          try {
-            videoRef.current.muted = true;
-            await videoRef.current.play();
-          } catch (error2) {
-            console.log('Error al reproducir video muted:', error2);
-          }
-        }
-      }
-    };
-
-    playVideoWithSound();
+    const video = videoRef.current;
+    if (video) {
+      const playVideoWithSound = () => {
+        video.muted = false;
+        video.play().catch(err => console.log('Error al reproducir con sonido:', err));
+      };
+      video.addEventListener('canplay', playVideoWithSound);
+      return () => video.removeEventListener('canplay', playVideoWithSound);
+    }
   }, []);
 
   // Activar sonido al hacer click/touch
   const handleVideoInteraction = async () => {
-    if (videoRef.current && videoRef.current.muted) {
+    if (videoRef.current) {
       videoRef.current.muted = false;
       try {
         await videoRef.current.play();
@@ -206,7 +197,8 @@ function App() {
               top: 0,
               left: 0,
               width: '100%',
-              height: '100%'
+              height: '100%',
+              pointerEvents: 'none'
             }}
           />
         </div>
