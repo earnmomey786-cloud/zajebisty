@@ -257,115 +257,252 @@ function App() {
                   <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
                 </div>
                 
-                {/* Botón con animación flotante en la esquina inferior izquierda */}
-                <button 
-                  className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-50 hover:scale-110 transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg"
-                  onClick={() => {
-                    // En móvil, ocultar la pantalla actual y abrir video
-                    if (isMobile) {
-                      // Ocultar el contenido actual
-                      const mainContent = document.querySelector('.w-screen.overflow-hidden.relative.bg-black');
-                      if (mainContent) {
-                        (mainContent as HTMLElement).style.display = 'none';
-                      }
-                      
-                      // Crear video en pantalla completa
-                      const videoContainer = document.createElement('div');
-                      videoContainer.style.cssText = `
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100vw;
-                        height: 100vh;
-                        background: black;
-                        z-index: 9999;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      `;
-                      
-                      const video = document.createElement('video');
-                      video.src = '/marketingzjajami.mp4';
-                      video.controls = true;
-                      video.autoplay = true;
-                      video.style.cssText = `
-                        width: 100%;
-                        height: 100%;
-                        object-fit: contain;
-                        transform: rotate(90deg);
-                        transform-origin: center;
-                      `;
-                      
-                      videoContainer.appendChild(video);
-                      
-                      // Mensaje para girar el móvil
-                      const rotateMessage = document.createElement('div');
-                      rotateMessage.innerHTML = '📱 Gira tu móvil para ver el video en horizontal';
-                      rotateMessage.style.cssText = `
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        background: rgba(0,0,0,0.8);
-                        color: white;
-                        padding: 20px;
-                        border-radius: 10px;
-                        font-size: 16px;
-                        text-align: center;
-                        z-index: 10001;
-                        pointer-events: none;
-                      `;
-                      
-                      videoContainer.appendChild(rotateMessage);
-                      document.body.appendChild(videoContainer);
-                      
-                      // Ocultar mensaje después de 3 segundos
-                      setTimeout(() => {
-                        if (rotateMessage.parentNode) {
-                          rotateMessage.parentNode.removeChild(rotateMessage);
+                {/* Ghost Button en la esquina inferior izquierda */}
+                <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-50">
+                  <div className="relative">
+                    {/* Texto "Kim jestem?" */}
+                    <div className="kim-text">KIM JESTEM?</div>
+                    
+                    {/* Fantasma pixelado */}
+                    <div 
+                      id="ghost"
+                      onClick={() => {
+                        // En móvil, girar pantalla automáticamente y abrir video
+                        if (isMobile) {
+                          // Intentar girar la pantalla automáticamente
+                          const rotateScreen = async () => {
+                            try {
+                              // Intentar usar Screen Orientation API
+                              if (screen.orientation && screen.orientation.lock) {
+                                await screen.orientation.lock('landscape');
+                              }
+                            } catch (error) {
+                              console.log('No se pudo girar automáticamente:', error);
+                            }
+                          };
+                          
+                          // Ejecutar rotación
+                          rotateScreen();
+                          
+                          // Ocultar el contenido actual
+                          const mainContent = document.querySelector('.w-screen.overflow-hidden.relative.bg-black');
+                          if (mainContent) {
+                            (mainContent as HTMLElement).style.display = 'none';
+                          }
+                          
+                          // Crear video en pantalla completa
+                          const videoContainer = document.createElement('div');
+                          videoContainer.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100vw;
+                            height: 100vh;
+                            background: black;
+                            z-index: 9999;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          `;
+                          
+                          const video = document.createElement('video');
+                          video.src = '/marketingzjajami.mp4';
+                          video.controls = true;
+                          video.autoplay = true;
+                          video.style.cssText = `
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                          `;
+                          
+                          videoContainer.appendChild(video);
+                          
+                          // Mensaje de confirmación
+                          const confirmMessage = document.createElement('div');
+                          confirmMessage.innerHTML = '🔄 Pantalla girando automáticamente...';
+                          confirmMessage.style.cssText = `
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: rgba(0,0,0,0.8);
+                            color: white;
+                            padding: 20px;
+                            border-radius: 10px;
+                            font-size: 16px;
+                            text-align: center;
+                            z-index: 10001;
+                            pointer-events: none;
+                          `;
+                          
+                          videoContainer.appendChild(confirmMessage);
+                          document.body.appendChild(videoContainer);
+                          
+                          // Ocultar mensaje después de 2 segundos
+                          setTimeout(() => {
+                            if (confirmMessage.parentNode) {
+                              confirmMessage.parentNode.removeChild(confirmMessage);
+                            }
+                          }, 2000);
+                          
+                          // Botón para cerrar
+                          const closeButton = document.createElement('button');
+                          closeButton.innerHTML = '✕';
+                          closeButton.style.cssText = `
+                            position: absolute;
+                            top: 20px;
+                            right: 20px;
+                            background: rgba(0,0,0,0.7);
+                            color: white;
+                            border: none;
+                            border-radius: 50%;
+                            width: 40px;
+                            height: 40px;
+                            font-size: 20px;
+                            cursor: pointer;
+                            z-index: 10000;
+                          `;
+                          
+                          closeButton.onclick = async () => {
+                            // Intentar volver a portrait al cerrar
+                            try {
+                              if (screen.orientation && screen.orientation.lock) {
+                                await screen.orientation.lock('portrait');
+                              }
+                            } catch (error) {
+                              console.log('No se pudo volver a portrait:', error);
+                            }
+                            
+                            document.body.removeChild(videoContainer);
+                            if (mainContent) {
+                              (mainContent as HTMLElement).style.display = 'block';
+                            }
+                          };
+                          
+                          videoContainer.appendChild(closeButton);
+                        } else {
+                          // En desktop, mostrar video en pantalla completa con fondo de la web
+                          // Ocultar el contenido actual
+                          const mainContent = document.querySelector('.w-screen.overflow-hidden.relative.bg-black');
+                          if (mainContent) {
+                            (mainContent as HTMLElement).style.display = 'none';
+                          }
+                          
+                          // Crear video en pantalla completa con fondo de la web
+                          const videoContainer = document.createElement('div');
+                          videoContainer.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100vw;
+                            height: 100vh;
+                            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+                            z-index: 9999;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                          `;
+                          
+                          const video = document.createElement('video');
+                          video.src = '/marketingzjajami.mp4';
+                          video.controls = true;
+                          video.autoplay = true;
+                          video.style.cssText = `
+                            max-width: 90%;
+                            max-height: 90%;
+                            object-fit: contain;
+                            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+                          `;
+                          
+                          videoContainer.appendChild(video);
+                          
+                          // Botón para cerrar
+                          const closeButton = document.createElement('button');
+                          closeButton.innerHTML = '✕';
+                          closeButton.style.cssText = `
+                            position: absolute;
+                            top: 20px;
+                            right: 20px;
+                            background: rgba(0,0,0,0.7);
+                            color: white;
+                            border: none;
+                            border-radius: 50%;
+                            width: 50px;
+                            height: 50px;
+                            font-size: 24px;
+                            cursor: pointer;
+                            z-index: 10000;
+                            transition: all 0.3s ease;
+                          `;
+                          
+                          closeButton.onmouseover = () => {
+                            closeButton.style.background = 'rgba(255, 0, 0, 0.8)';
+                            closeButton.style.transform = 'scale(1.1)';
+                          };
+                          
+                          closeButton.onmouseout = () => {
+                            closeButton.style.background = 'rgba(0,0,0,0.7)';
+                            closeButton.style.transform = 'scale(1)';
+                          };
+                          
+                          closeButton.onclick = () => {
+                            document.body.removeChild(videoContainer);
+                            if (mainContent) {
+                              (mainContent as HTMLElement).style.display = 'block';
+                            }
+                          };
+                          
+                          videoContainer.appendChild(closeButton);
+                          document.body.appendChild(videoContainer);
                         }
-                      }, 3000);
-                      
-                      // Botón para cerrar
-                      const closeButton = document.createElement('button');
-                      closeButton.innerHTML = '✕';
-                      closeButton.style.cssText = `
-                        position: absolute;
-                        top: 20px;
-                        right: 20px;
-                        background: rgba(0,0,0,0.7);
-                        color: white;
-                        border: none;
-                        border-radius: 50%;
-                        width: 40px;
-                        height: 40px;
-                        font-size: 20px;
-                        cursor: pointer;
-                        z-index: 10000;
-                      `;
-                      
-                      closeButton.onclick = () => {
-                        document.body.removeChild(videoContainer);
-                        if (mainContent) {
-                          (mainContent as HTMLElement).style.display = 'block';
-                        }
-                      };
-                      
-                      videoContainer.appendChild(closeButton);
-                    } else {
-                      // En desktop, abrir en nueva ventana
-                      const videoUrl = '/marketingzjajami.mp4';
-                      window.open(videoUrl, '_blank');
-                    }
-                  }}
-                >
-                  <img 
-                    src="/jajo.svg" 
-                    alt="Botón Jajo" 
-                    className="w-48 h-48 md:w-64 md:h-64 object-contain animate-float"
-                    draggable={false}
-                  />
-                </button>
+                      }}
+                    >
+                      <div id="red">
+                        <div id="top0"></div>
+                        <div id="top1"></div>
+                        <div id="top2"></div>
+                        <div id="top3"></div>
+                        <div id="top4"></div>
+                        <div id="st0"></div>
+                        <div id="st1"></div>
+                        <div id="st2"></div>
+                        <div id="st3"></div>
+                        <div id="st4"></div>
+                        <div id="st5"></div>
+                        <div id="an1"></div>
+                        <div id="an2"></div>
+                        <div id="an3"></div>
+                        <div id="an4"></div>
+                        <div id="an5"></div>
+                        <div id="an6"></div>
+                        <div id="an7"></div>
+                        <div id="an8"></div>
+                        <div id="an9"></div>
+                        <div id="an10"></div>
+                        <div id="an11"></div>
+                        <div id="an12"></div>
+                        <div id="an13"></div>
+                        <div id="an14"></div>
+                        <div id="an15"></div>
+                        <div id="an16"></div>
+                        <div id="an17"></div>
+                        <div id="an18"></div>
+                      </div>
+                      <div id="eye"></div>
+                      <div id="eye1"></div>
+                      <div id="pupil"></div>
+                      <div id="pupil1"></div>
+                      <div id="mouthstart"></div>
+                      <div id="mouth1"></div>
+                      <div id="mouth2"></div>
+                      <div id="mouth3"></div>
+                      <div id="mouth4"></div>
+                      <div id="mouth5"></div>
+                      <div id="mouthend"></div>
+                      <div id="shadow"></div>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </div>
