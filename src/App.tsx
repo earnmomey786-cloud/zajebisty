@@ -239,11 +239,30 @@ function App() {
           >
             {/* Título con efecto glitch, solo en la primera sección */}
             {section.id === 0 && (
-              <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[50vw] max-w-[900px] pointer-events-none select-none z-50">
-                <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
-                <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
-                <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
-              </div>
+              <>
+                <div className="glitch absolute top-4 right-4 md:top-8 md:right-8 w-[50vw] max-w-[900px] pointer-events-none select-none z-50">
+                  <img src="/zajebistymarketing.png" alt="Zajebisty Marketing" draggable={false} />
+                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
+                  <img src="/zajebistymarketing.png" alt="" aria-hidden="true" draggable={false} />
+                </div>
+                
+                {/* Botón con animación flotante en la esquina inferior izquierda */}
+                <button 
+                  className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-50 hover:scale-110 transition-transform duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 rounded-lg"
+                  onClick={() => {
+                    // Abrir el video en una nueva ventana/pestaña
+                    const videoUrl = '/marketingzjajami.mp4';
+                    window.open(videoUrl, '_blank');
+                  }}
+                >
+                  <img 
+                    src="/jajo.svg" 
+                    alt="Botón Jajo" 
+                    className="w-48 h-48 md:w-64 md:h-64 object-contain animate-float"
+                    draggable={false}
+                  />
+                </button>
+              </>
             )}
           </div>
         ))}
