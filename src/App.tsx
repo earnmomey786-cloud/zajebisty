@@ -8,6 +8,7 @@ function App() {
   const [prevTranslate, setPrevTranslate] = useState(0);
   const [isLandscape, setIsLandscape] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [currentPage, setCurrentPage] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -181,6 +182,27 @@ function App() {
 
   return (
     <>
+      {/* Página de fondo cuando se hace clic en una tarjeta */}
+      {currentPage && (
+        <div 
+          className="fixed inset-0 z-[100] w-screen h-screen"
+          style={{
+            backgroundImage: `url(/${currentPage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+          }}
+        >
+          {/* Botón de retroceso */}
+          <button
+            onClick={() => setCurrentPage(null)}
+            className="absolute top-4 left-4 md:top-8 md:left-8 bg-black/50 hover:bg-black/70 text-white px-6 py-3 rounded-lg font-bold text-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+          >
+            ← Volver
+          </button>
+        </div>
+      )}
+
       {/* Video para móvil en vertical */}
       {!isLandscape && isMobile && (
         <div 
@@ -263,9 +285,12 @@ function App() {
                     {/* Texto "Kim jestem?" */}
                     <div className="kim-text">KIM JESTEM?</div>
                     
-                    {/* Fantasma pixelado */}
-                    <div 
-                      id="ghost"
+                    {/* Foto clickeable */}
+                    <img 
+                      src="/Kim jestesmy.png"
+                      alt="Kim jestem?"
+                      className="cursor-pointer hover:scale-105 transition-transform duration-300 float-button"
+                      style={{ maxWidth: '200px', height: 'auto' }}
                       onClick={() => {
                         // En móvil, girar pantalla automáticamente y abrir video
                         if (isMobile) {
@@ -456,50 +481,142 @@ function App() {
                           document.body.appendChild(videoContainer);
                         }
                       }}
-                    >
-                      <div id="red">
-                        <div id="top0"></div>
-                        <div id="top1"></div>
-                        <div id="top2"></div>
-                        <div id="top3"></div>
-                        <div id="top4"></div>
-                        <div id="st0"></div>
-                        <div id="st1"></div>
-                        <div id="st2"></div>
-                        <div id="st3"></div>
-                        <div id="st4"></div>
-                        <div id="st5"></div>
-                        <div id="an1"></div>
-                        <div id="an2"></div>
-                        <div id="an3"></div>
-                        <div id="an4"></div>
-                        <div id="an5"></div>
-                        <div id="an6"></div>
-                        <div id="an7"></div>
-                        <div id="an8"></div>
-                        <div id="an9"></div>
-                        <div id="an10"></div>
-                        <div id="an11"></div>
-                        <div id="an12"></div>
-                        <div id="an13"></div>
-                        <div id="an14"></div>
-                        <div id="an15"></div>
-                        <div id="an16"></div>
-                        <div id="an17"></div>
-                        <div id="an18"></div>
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Tarjeta 3D interactiva en la segunda sección */}
+            {section.id === 1 && (
+              <div className="absolute inset-0 flex items-center justify-center z-50">
+                <div className="card-container noselect">
+                  <div className="canvas">
+                    <div className="tracker tr-1"></div>
+                    <div className="tracker tr-2"></div>
+                    <div className="tracker tr-3"></div>
+                    <div className="tracker tr-4"></div>
+                    <div className="tracker tr-5"></div>
+                    <div className="tracker tr-6"></div>
+                    <div className="tracker tr-7"></div>
+                    <div className="tracker tr-8"></div>
+                    <div className="tracker tr-9"></div>
+                    <div className="tracker tr-10"></div>
+                    <div className="tracker tr-11"></div>
+                    <div className="tracker tr-12"></div>
+                    <div className="tracker tr-13"></div>
+                    <div className="tracker tr-14"></div>
+                    <div className="tracker tr-15"></div>
+                    <div className="tracker tr-16"></div>
+                    <div className="tracker tr-17"></div>
+                    <div className="tracker tr-18"></div>
+                    <div className="tracker tr-19"></div>
+                    <div className="tracker tr-20"></div>
+                    <div className="tracker tr-21"></div>
+                    <div className="tracker tr-22"></div>
+                    <div className="tracker tr-23"></div>
+                    <div className="tracker tr-24"></div>
+                    <div className="tracker tr-25"></div>
+                    <div id="card">
+                      <p id="prompt">
+                        Potrzebujesz <span className="highlight-word">ZAJEBISTEJ</span> strony internetowej, co <span className="highlight-word">ZAJEBISCIE</span> sprzedaje?
+                      </p>
+                      <div className="title">
+                        <p className="title-top">ZAJEBISCIE SIĘ SKŁADA! ZNALAZŁEŚ MNIE!</p>
+                        <div className="title-content">
+                          <p className="intro-text">Bo trzeba przyciągnąć uwagę klientów i sprawić, że będą o tobie pamiętać w tym świecie pełnym klonów.</p>
+                          <p className="subtitle-text">Dlatego tworzę:</p>
+                          <ul className="services-list">
+                            <li><span className="highlight-word">Zajebisty</span> copywriting (coś, z jajami!)</li>
+                            <li><span className="highlight-word">Zajebista</span> strona internetowa</li>
+                            <li><span className="highlight-word">Zajebisty</span> marketing</li>
+                            <li><span className="highlight-word">Zajebisty</span> branding</li>
+                          </ul>
+                        </div>
                       </div>
-                      <div id="eye"></div>
-                      <div id="eye1"></div>
-                      <div id="pupil"></div>
-                      <div id="pupil1"></div>
-                      <div id="mouthstart"></div>
-                      <div id="mouth1"></div>
-                      <div id="mouth2"></div>
-                      <div id="mouth3"></div>
-                      <div id="mouth4"></div>
-                      <div id="mouth5"></div>
-                      <div id="mouthend"></div>
-                      <div id="shadow"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Imagen en la esquina superior izquierda de la tercera sección */}
+            {section.id === 2 && (
+              <>
+                <div className="absolute top-4 left-4 md:top-8 md:left-8 z-50">
+                  <div className="glitch w-[300px] pointer-events-none select-none">
+                    <img src="/marketingzjajami.png" alt="Marketing z jajami" draggable={false} />
+                    <img src="/marketingzjajami.png" alt="" aria-hidden="true" draggable={false} />
+                    <img src="/marketingzjajami.png" alt="" aria-hidden="true" draggable={false} />
+                  </div>
+                </div>
+
+                {/* Tarjetas en el lado derecho: dos arriba, una abajo */}
+                <div className="absolute right-32 top-1/2 -translate-y-1/2 z-40">
+                  <div className="flex flex-col items-center gap-6">
+                    {/* Fila superior: dos tarjetas */}
+                    <div className="flex gap-6">
+                      {/* Tarjeta 1 - Marketing Klon */}
+                      <div 
+                        className="flip-card cursor-pointer"
+                        onClick={() => setCurrentPage('marketingklon.png')}
+                      >
+                        <div className="flip-card-front">
+                          <p className="flip-card-front-title">Marketing<br/>Klon</p>
+                          <div className="flip-card-price-box">
+                            <span className="flip-card-currency">€</span>
+                            <span className="flip-card-amount">500</span>
+                          </div>
+                        </div>
+                        <div className="flip-card__content">
+                          <div className="flip-card__header">
+                            <span className="flip-card__icon">⚠️</span>
+                            <h3 className="flip-card__subtitle">Co zawiera?</h3>
+                          </div>
+                          <p className="flip-card__text"><span className="highlight-red">Spersonalizowana</span> strona internetowa <span className="highlight-red">skopiowana</span> z innych, tak jak wszystkie.</p>
+                          <p className="flip-card__text">Design z szablonów, marketing bez strategii, treści z copy-paste'u.</p>
+                          <div className="flip-card__verdict">
+                            <p>Zajebisty? <span className="verdict-no">NIE</span></p>
+                            <p>Tani? <span className="verdict-yes">TAK</span></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tarjeta 2 - Zajebista Strona */}
+                      <div 
+                        className="flip-card cursor-pointer"
+                        onClick={() => setCurrentPage('zajebistastrona.png')}
+                      >
+                        <div className="flip-card-front">
+                          <p className="flip-card-front-title">Zajebista<br/>Strona<br/>Internetowa</p>
+                          <div className="flip-card-price-box">
+                            <span className="flip-card-currency">€</span>
+                            <span className="flip-card-amount">3000</span>
+                          </div>
+                        </div>
+                        <div className="flip-card__content">
+                          <p className="flip-card__title">Tarjeta 2</p>
+                          <p className="flip-card__description">Descripción de la segunda tarjeta con más detalles.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Fila inferior: una tarjeta centrada */}
+                    <div 
+                      className="flip-card cursor-pointer"
+                      onClick={() => setCurrentPage('itojestzajebistymarketing.png')}
+                    >
+                      <div className="flip-card-front">
+                        <p className="flip-card-front-title">Marketing<br/>z jajami</p>
+                        <div className="flip-card-price-box">
+                          <span className="flip-card-currency">€</span>
+                          <span className="flip-card-amount">5000</span>
+                        </div>
+                      </div>
+                      <div className="flip-card__content">
+                        <p className="flip-card__title">Tarjeta 3</p>
+                        <p className="flip-card__description">Descripción de la tercera tarjeta con contenido relevante.</p>
+                      </div>
                     </div>
                   </div>
                 </div>
